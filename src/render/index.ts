@@ -453,6 +453,12 @@ export function render(ctx: RenderContext): void {
     ? physicalLines.flatMap(line => wrapLineToWidth(line, terminalWidth))
     : physicalLines;
 
+  // Ensure at least one line is always output to prevent terminal scroll issues
+  if (visibleLines.length === 0) {
+    console.log(RESET);
+    return;
+  }
+
   for (const line of visibleLines) {
     const outputLine = `${RESET}${line}`;
     console.log(outputLine);
